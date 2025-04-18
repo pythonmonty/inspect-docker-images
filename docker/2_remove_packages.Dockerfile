@@ -1,0 +1,23 @@
+FROM python:3.12-slim
+ARG TOKEN
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV POETRY_VERSION="2.1.0"
+ENV POETRY_NO_INTERACTION=1
+ENV POETRY_VIRTUALENVS_CREATE=0
+ENV POETRY_VIRTUALENVS_IN_PROJECT=0
+
+ENV POETRY_HTTP_BASIC_PYTHONMONTY_USERNAME="docker-user"
+ENV POETRY_HTTP_BASIC_PYTHONMONTY_PASSWORD="$TOKEN"
+RUN echo "$POETRY_HTTP_BASIC_FOO_PASSWORD"
+
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends libpq5
+
+WORKDIR /app
+COPY . .
+
+RUN pip install poetry=="$POETRY_VERSION"
+RUN poetry install
+
+CMD ["python", "cat_app/app.py"]
