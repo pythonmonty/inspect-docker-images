@@ -10,7 +10,7 @@ ENV POETRY_VERSION="2.1.0" \
     POETRY_HTTP_BASIC_PYTHONMONTY_PASSWORD="$TOKEN"
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpq5 \
+    && apt-get install -y --no-install-recommends libpq5=15.12-0+deb12u2 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install poetry=="$POETRY_VERSION"

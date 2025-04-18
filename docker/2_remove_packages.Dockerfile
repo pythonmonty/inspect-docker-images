@@ -12,7 +12,7 @@ ENV POETRY_HTTP_BASIC_PYTHONMONTY_PASSWORD="$TOKEN"
 RUN echo "$POETRY_HTTP_BASIC_FOO_PASSWORD"
 
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends libpq5
+RUN apt-get install -y --no-install-recommends libpq5=15.12-0+deb12u2
 
 WORKDIR /app
 COPY . .
