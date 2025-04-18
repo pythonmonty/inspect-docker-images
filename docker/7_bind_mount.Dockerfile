@@ -24,10 +24,11 @@ RUN python -m venv $POETRY_HOME \
     && $POETRY_HOME/bin/pip install poetry=="$POETRY_VERSION"
 
 WORKDIR /app
-COPY pyproject.toml poetry.lock ./
 
 RUN --mount=type=secret,id=user,target=/root/artifacts/user \
     --mount=type=secret,id=token,target=/root/artifacts/token \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=poetry.lock,target=poetry.lock \
     sh -c 'POETRY_HTTP_BASIC_PYTHONMONTY_USERNAME=$(cat /root/artifacts/user) \
            POETRY_HTTP_BASIC_PYTHONMONTY_PASSWORD=$(cat /root/artifacts/token) \
            $POETRY_HOME/bin/poetry install --no-root --only main && \

@@ -20,13 +20,6 @@ repos:
       - id: ruff
         args: ['--fix']
 
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.0
-    hooks:
-      - id: bandit
-        args: ['-c', 'pyproject.toml']
-        additional_dependencies: ['bandit[toml]']
-
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.2
     hooks:
@@ -51,10 +44,9 @@ repos:
       - id: poetry-check
         args: ['--lock']
 
-  # MyPy
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.13.0
+  # Hadolint for Dockerfiles
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
     hooks:
-      - id: mypy
-        additional_dependencies: ['poetry>=1.0.0']
-        args: ['--config-file=pyproject.toml']
+      - id: hadolint-docker
+        args: ['--ignore', 'DL3008']

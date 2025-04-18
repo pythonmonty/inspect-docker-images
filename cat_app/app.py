@@ -1,8 +1,6 @@
 from flask import Flask, render_template_string
 from random_cat_generator.cat import get_cat_image_url
 
-app = Flask(__name__)
-
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
@@ -23,11 +21,16 @@ HTML_TEMPLATE = """
 """
 
 
-@app.route('/')
-def index():
-    image_url = get_cat_image_url()
-    return render_template_string(HTML_TEMPLATE, image_url=image_url)
+def create_app():
+    app = Flask(__name__)
+
+    @app.route('/')
+    def index():
+        image_url = get_cat_image_url()
+        return render_template_string(HTML_TEMPLATE, image_url=image_url)
+
+    return app
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000)
+    create_app().run(host="0.0.0.0", port=3000)
