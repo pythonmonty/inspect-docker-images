@@ -17,11 +17,11 @@ RUN groupadd -g "$GID" "$DOCKER_GROUP" && \
     useradd -l -u "$UID" -g "$DOCKER_GROUP" -s /bin/sh -m "$DOCKER_USER"
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpq5 \
+    && apt-get install -y --no-install-recommends libpq5=15.12-0+deb12u2 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python -m venv $POETRY_HOME \
-    && $POETRY_HOME/bin/pip install poetry=="$POETRY_VERSION"
+    && $POETRY_HOME/bin/pip install --no-cache-dir poetry=="$POETRY_VERSION"
 
 WORKDIR /app
 COPY pyproject.toml poetry.lock ./
