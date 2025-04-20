@@ -1,6 +1,6 @@
 ARG INSTALLER_VENV_PATH=/build/.venv
 
-FROM python:3.12-slim as base
+FROM python:3.12-slim@sha256:85824326bc4ae27a1abb5bc0dd9e08847aa5fe73d8afb593b1b45b7cb4180f57 as base
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
