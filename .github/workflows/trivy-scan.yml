@@ -47,6 +47,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: trivy-image.sarif
+          category: trivy-image-scan
 
       - name: Run Trivy config scan (Dockerfile best practices)
         run: |
@@ -56,3 +57,4 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: trivy-config.sarif
+          category: trivy-config-scan
