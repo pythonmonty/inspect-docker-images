@@ -12,7 +12,7 @@ permissions:
   security-events: write
 
 env:
-  IMAGE_NAME: 0-original
+  IMAGE_NAME: 4-poetry
   IMAGE_TAG: ${{ github.run_id }}
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
         run: |
           docker build \
             --build-arg TOKEN=${{ secrets.PYTHONMONTY_ADO_PAT }} \
-            -f docker/0_original.Dockerfile \
+            -f docker/4_poetry.Dockerfile \
             -t $IMAGE_NAME:$IMAGE_TAG .
 
       - name: Run Trivy image scan
