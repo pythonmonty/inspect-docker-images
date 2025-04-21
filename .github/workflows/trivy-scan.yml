@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t $IMAGE_NAME:$IMAGE_TAG .
+          docker build -t docker/$IMAGE_NAME:$IMAGE_TAG .
 
       - name: Run Trivy image scan
         run: |
