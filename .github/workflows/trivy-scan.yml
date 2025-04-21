@@ -1,0 +1,53 @@
+name: Trivy Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+env:
+  IMAGE_NAME: 0-original
+  IMAGE_TAG: ${{ github.run_id }}
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install wget -y
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.49.1_Linux-64bit.deb
+          sudo dpkg -i trivy_0.49.1_Linux-64bit.deb
+
+      - name: Build Docker image
+        run: |
+          docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
+      - name: Run Trivy image scan
+        run: |
+          trivy image --format sarif -o trivy-image.sarif $IMAGE_NAME:$IMAGE_TAG
+
+      - name: Upload image scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: trivy-image.sarif
+
+      - name: Run Trivy config scan (Dockerfile best practices)
+        run: |
+          trivy config --format sarif -o trivy-config.sarif .
+
+      - name: Upload config scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: trivy-config.sarif
